@@ -70,6 +70,10 @@ The four projects and the `mothership` repository that ties them together share 
 - `/metrics` serves Prometheus metrics. Traces are exported over OTLP when configured.
 - Logs are JSON on stdout.
 
+**Everything is free**
+- There is no paid edition and no license key. SSO, roles and permissions, audit logs, multi-tenancy, clustering, the admin API and the future console all ship in the Apache-2.0 build.
+- No feature is held back for a hosted or enterprise version. This is a selling point, and each README says so.
+
 **Storage**
 - State that must survive a restart lives in SQL: embedded SQLite by default, so one binary still runs with no setup, and Postgres for teams and for several replicas.
 - Use pure-Go drivers (`modernc.org/sqlite`, `pgx`), so builds don't need cgo.
