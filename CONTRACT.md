@@ -81,6 +81,8 @@ The four projects and the `mothership` repository that ties them together share 
 
 **Admin API for a future console**
 - A separate web console is planned later. No project ships its own UI.
+- The console has to look good and be easy to use. A new user goes from opening it to a working setup without touching a YAML file, and every common task, like adding a server, giving someone access or reading the audit log, takes a few clicks. It has light and dark themes and works on a phone.
+- So the admin API must cover every common task, not only reads.
 - Each project serves a JSON admin API under `/admin/v1/`, described by an OpenAPI file in the repository, with the same identity rules as the rest of the API.
 - The admin API covers what a console would show or change: configuration, status, usage and audit records, and the project's own data, such as airlock's servers and permissions or logbook's memories.
 - Lists use cursor pagination: a `cursor` parameter in, `next_cursor` out.
