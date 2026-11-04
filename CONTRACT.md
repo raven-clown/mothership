@@ -91,6 +91,12 @@ The four projects and the `mothership` repository that ties them together share 
 - `github.com/raven-clown/<name>`, Apache-2.0, Go 1.26 or newer.
 - An `mothership` repository holds this contract, a Docker Compose file that runs all four together, and an end-to-end test of the path in the diagram.
 
+## Contributing
+
+- Every repository copies `contributing/` from this repository: `CONTRIBUTING.md`, the issue and pull request templates, and the labels in `contributing/labels.md`. A project can add to them, not loosen them.
+- CI on every pull request runs `go test -race ./...`, golangci-lint, and the 80% coverage check, and a `make check` target runs the same locally.
+- Once a project's spec is approved, its first milestone is written as issues in the format of `contributing/labels.md`, with a few `good first issue` items, drafted in `docs/issues.md` for review before they are posted.
+
 ## Build order
 
 1. `airlock`, `transponder` and `logbook` are built in parallel against this contract.
