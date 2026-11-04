@@ -38,14 +38,17 @@ The four projects and the `mothership` repository that ties them together share 
 - Tool names are prefixed with the server name: `github__create_issue`.
 
 **logbook**
-- An MCP server over Streamable HTTP and stdio. Tools: `remember`, `logbook`, `forget`, `list_memories`.
+- An MCP server over Streamable HTTP and stdio. Tools: `remember`, `recall`, `verify`, `forget`, `list_memories`.
 - The same operations over a small REST API under `/v1/`.
 - Memories belong to a scope: `user`, `project` or `team`, taken from the caller's identity.
 
 **transponder**
 - OpenAI-compatible `/v1/chat/completions` and `/v1/embeddings`.
 - Anthropic-compatible `/v1/messages`, so Claude clients work unchanged.
-- Usage and cost per call are reported in the response headers listed below.
+- Usage and cost per call are reported in the response headers listed below. A streamed response sends the same names as HTTP trailers, and the stream's own usage event carries the counts for clients that can't read trailers. Callers that stream read the trailers.
+- Besides `Authorization: Bearer`, it accepts `x-api-key`, because Anthropic clients send that. Only transponder accepts it.
+- Route names are stable aliases for models, so another project can ask for `memory-extract` without knowing which provider serves it.
+- An `echo` provider answers without calling anyone, so tests and the mothership end-to-end run need no keys.
 
 **rosetta**
 - Agents are written once against one Go interface, or declared in config.
@@ -57,7 +60,10 @@ The four projects and the `mothership` repository that ties them together share 
 **Identity**
 - Callers send `Authorization: Bearer <token>`.
 - Tokens are OIDC JWTs checked against a configured issuer, or static API keys for service-to-service calls. Any OIDC provider works, including IdpForge.
-- A component that calls another forwards the caller's token unchanged, so every component sees the same user.
+- Inside the stack, a component that calls another forwards the caller's token unchanged, so every component sees the same user. The stack components accept the same audience.
+- airlock doesn't forward the caller's token to third-party MCP servers by default, since the MCP authorization spec warns against token passthrough. Forwarding is opt-in per backend, and token exchange (RFC 8693) can come later.
+- `X-Project` names the project a call belongs to. airlock can set it per caller, and logbook uses it to scope memories.
+- Every table that holds runtime or usage data has an `org_id` column, `default` until organisations ship, and every query filters by it. Multi-tenancy then needs no data migration.
 
 **Headers**
 - `traceparent` and `tracestate` (W3C Trace Context) are forwarded on every hop.
@@ -65,7 +71,10 @@ The four projects and the `mothership` repository that ties them together share 
 - `transponder` adds `X-Usage-Input-Tokens`, `X-Usage-Output-Tokens` and `X-Usage-Cost-USD`.
 
 **Operations**
-- One static binary per project, configured by a YAML file passed with `--config`. An environment variable can override any key: `AIRLOCK_LISTEN_ADDR` overrides `listen_addr`.
+- One static binary per project, configured by a YAML file passed with `--config`. An environment variable can override any key: `AIRLOCK_LISTEN_ADDR` overrides `listen_addr`, and `__` separates nested keys, as in `AIRLOCK_STORAGE__DSN` for `storage.dsn`.
+- With no config at all, a project starts on SQLite in the working directory and prints a one-time admin API key to stderr. That key is how a new user opens the console without writing YAML.
+- In stdio mode, logs go to stderr, so stdout stays clean for the protocol.
+- MCP code in every project uses `github.com/mark3labs/mcp-go`, so the four share one MCP library.
 - `/healthz` reports that the process is up. `/readyz` reports that its dependencies are reachable.
 - `/metrics` serves Prometheus metrics. Traces are exported over OTLP when configured.
 - Logs are JSON on stdout.
@@ -85,7 +94,13 @@ The four projects and the `mothership` repository that ties them together share 
 - So the admin API must cover every common task, not only reads.
 - Each project serves a JSON admin API under `/admin/v1/`, described by an OpenAPI file in the repository, with the same identity rules as the rest of the API.
 - The admin API covers what a console would show or change: configuration, status, usage and audit records, and the project's own data, such as airlock's servers and permissions or logbook's memories.
-- Lists use cursor pagination: a `cursor` parameter in, `next_cursor` out.
+- Lists take `cursor` and `limit` (default 50, at most 500) and return `{"items": [...], "next_cursor": "..."}`. `next_cursor` is absent on the last page.
+- Errors are `{"error": {"code": "...", "message": "...", "field": "..."}}` with a matching status. A validation error names the field, so the console can show the message next to it.
+- Every resource has an integer `version`. `PATCH` and `DELETE` take it in `If-Match`, and a mismatch is 409 `version_conflict`.
+- Roles are `admin`, `member` and `viewer` everywhere. A project may add its own, such as logbook's `verifier`.
+- Every project serves `GET /admin/v1/status` and `GET /admin/v1/audit`, and every write adds an audit record.
+- Items defined in the YAML file are read-only through the API and marked `managed_by_file`.
+- Cost is shown from transponder's records. Other projects count their own operations but don't track money.
 
 **Repositories**
 - `github.com/raven-clown/<name>`, Apache-2.0, Go 1.26 or newer.
