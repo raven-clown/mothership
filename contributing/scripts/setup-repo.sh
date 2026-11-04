@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
-# Usage: setup-repo.sh owner/name
+# Usage: setup-repo.sh owner/name [ruleset.json]
 # Applies the shared merge rules, labels and security settings to a repository.
 set -eu
 repo="$1"
+ruleset="${2:-ruleset.json}"
 here="$(cd "$(dirname "$0")/.." && pwd)"
 
 gh api -X PATCH "repos/$repo" \
@@ -34,9 +35,9 @@ LABELS
 
 existing="$(gh api "repos/$repo/rulesets" --jq '.[] | select(.name == "main") | .id')"
 if [ -n "$existing" ]; then
-  gh api -X PUT "repos/$repo/rulesets/$existing" --input "$here/ruleset.json" >/dev/null
+  gh api -X PUT "repos/$repo/rulesets/$existing" --input "$here/$ruleset" >/dev/null
 else
-  gh api -X POST "repos/$repo/rulesets" --input "$here/ruleset.json" >/dev/null
+  gh api -X POST "repos/$repo/rulesets" --input "$here/$ruleset" >/dev/null
 fi
 
 echo "configured $repo"
