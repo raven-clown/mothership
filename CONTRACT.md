@@ -70,6 +70,17 @@ The four projects and the `mothership` repository that ties them together share 
 - `/metrics` serves Prometheus metrics. Traces are exported over OTLP when configured.
 - Logs are JSON on stdout.
 
+**Storage**
+- State that must survive a restart lives in SQL: embedded SQLite by default, so one binary still runs with no setup, and Postgres for teams and for several replicas.
+- Use pure-Go drivers (`modernc.org/sqlite`, `pgx`), so builds don't need cgo.
+- The schema is versioned with migrations that run at startup.
+
+**Admin API for a future console**
+- A separate web console is planned later. No project ships its own UI.
+- Each project serves a JSON admin API under `/admin/v1/`, described by an OpenAPI file in the repository, with the same identity rules as the rest of the API.
+- The admin API covers what a console would show or change: configuration, status, usage and audit records, and the project's own data, such as airlock's servers and permissions or logbook's memories.
+- Lists use cursor pagination: a `cursor` parameter in, `next_cursor` out.
+
 **Repositories**
 - `github.com/raven-clown/<name>`, Apache-2.0, Go 1.26 or newer.
 - An `mothership` repository holds this contract, a Docker Compose file that runs all four together, and an end-to-end test of the path in the diagram.
