@@ -51,10 +51,21 @@ Every change comes with tests. A pull request without them is only merged when t
 ## Commits and pull requests
 
 - One change per pull request. A refactor and a feature are two pull requests.
-- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/): `fix(auth): reject expired tokens`, `feat(admin): list audit records`.
+- The pull request title follows [Conventional Commits](https://www.conventionalcommits.org/), such as `fix(auth): reject expired tokens` or `feat(admin): list audit records`. Pull requests are squash merged, so the title becomes the commit on `main`.
 - The pull request links its issue with `Closes #123`.
 - Describe what changed, why, and how you tested it. Say what you didn't test.
 - Keep the branch up to date with `main` and respond to review. A maintainer aims to give a first review within three days.
+
+## How a pull request gets merged
+
+`main` is protected. A pull request is merged only when all of these pass:
+
+- a review approval from a code owner, given after the last push
+- every review thread resolved
+- the branch up to date with `main`
+- these checks green: `test` on Linux, macOS and Windows, `coverage`, `lint`, `analyze` (CodeQL), `dependency review` and `pr title`
+
+Workflows from a fork wait for a maintainer to approve them before they run. Dependabot opens weekly pull requests for Go modules and GitHub Actions, and they go through the same checks.
 
 ## Backward compatibility
 

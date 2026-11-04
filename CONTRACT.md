@@ -93,8 +93,10 @@ The four projects and the `mothership` repository that ties them together share 
 
 ## Contributing
 
-- Every repository copies `contributing/` from this repository: `CONTRIBUTING.md`, the issue and pull request templates, and the labels in `contributing/labels.md`. A project can add to them, not loosen them.
-- CI on every pull request runs `go test -race ./...`, golangci-lint, and the 80% coverage check, and a `make check` target runs the same locally.
+- Every repository copies the contents of `contributing/` to its root: CONTRIBUTING.md, AGENTS.md (with CLAUDE.md, GEMINI.md and `.github/copilot-instructions.md` pointing to it), SECURITY.md, CODE_OF_CONDUCT.md, CHANGELOG.md, LICENSE, the issue and pull request templates, CODEOWNERS, the CI workflows, Dependabot, `.golangci.yml`, `.testcoverage.yml` and the Makefile. A project can add to them, not loosen them.
+- `scripts/setup-repo.sh owner/name` applies the merge rules in `ruleset.json`, the labels and the security settings to a new repository.
+- `main` only changes through a squash-merged pull request with a code owner's approval and every check green: tests on Linux, macOS and Windows, coverage of 80% or more, lint, CodeQL, dependency review and a Conventional Commits title.
+- Every change is committed and pushed right away, and AGENTS.md is updated in the same commit whenever commands, layout or rules change.
 - Once a project's spec is approved, its first milestone is written as issues in the format of `contributing/labels.md`, with a few `good first issue` items, drafted in `docs/issues.md` for review before they are posted.
 
 ## Build order
