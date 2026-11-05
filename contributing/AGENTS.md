@@ -26,6 +26,8 @@ make check   # lint plus tests with the 80% coverage check
 - Follow CONTRIBUTING.md: tests with every change, a failing test first for a bug fix, table-driven tests, no network in unit tests, no bare `time.Sleep`.
 - Commit after every change, with a Conventional Commits message, and push it.
 - Work on a branch off main (`feat/`, `fix/`, `ci/`, `docs/`), never on main itself. When the work is done, open a pull request. Once every required check is green, a maintainer squash-merges it with `gh pr merge <n> --squash --delete-branch --admin --subject "<pr title> (#<n>)" --body ""`, which keeps a co-author trailer off the squash commit, and deletes the local branch. Never merge a red pull request.
+- Fill in `.github/PULL_REQUEST_TEMPLATE.md`, including the project checks. Issues use the forms in `.github/ISSUE_TEMPLATE/`: bug report, feature request, new adapter and docs.
+- Release after every finished plan, at the latest main: a `chore(release): vX.Y.Z` pull request moves the Unreleased entries in CHANGELOG.md under the version, and once it merges, `gh release create vX.Y.Z --target <merge commit>` tags that commit. A plan bumps the minor version, a fix-only release the patch. Check that no release pull request is open before merging anything else.
 - Never mention AI, assistants or code generation in code, comments, docs, commit messages, pull requests or issues.
 - Never add `Co-Authored-By`, `Generated with` or similar trailers.
 - No em-dashes. Keep comments short and about why.
