@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="mothership logo">
+  <defs>
+    <linearGradient id="mothership-g" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="452" y2="452"><stop offset="0" stop-color="#58A6FF"/><stop offset="1" stop-color="#2EE6A6"/></linearGradient>
+    <linearGradient id="mothership-f0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="mothership-f1" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="mothership-f2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="mothership-f3" x1="0.5" y1="0" x2="0.5" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <g id="mothership-sil"><path d="M170 226 A86 86 0 0 1 342 226 L256 226 A0 0 0 0 0 256 226 Z" fill-rule="nonzero"/><path d="M36 270 Q256 196 476 270 Q256 344 36 270 Z M104 270 A14 14 0 1 0 132 270 A14 14 0 1 0 104 270 Z M182 270 A14 14 0 1 0 210 270 A14 14 0 1 0 182 270 Z M302 270 A14 14 0 1 0 330 270 A14 14 0 1 0 302 270 Z M380 270 A14 14 0 1 0 408 270 A14 14 0 1 0 380 270 Z" fill-rule="evenodd"/><path d="M178 318 L334 318 L304 352 L208 352 Z" fill-rule="nonzero"/><path d="M150 330 L168 336 L140 392 L124 388 Z" fill-rule="nonzero"/><path d="M362 330 L344 336 L372 392 L388 388 Z" fill-rule="nonzero"/><path d="M254 352 H258 A4 4 0 0 1 262 356 V392 A4 4 0 0 1 258 396 H254 A4 4 0 0 1 250 392 V356 A4 4 0 0 1 254 352 Z" fill-rule="nonzero"/></g>
+    <clipPath id="mothership-c0"><path d="M220 262 L271.9 303.2 L280.1 267.7 Z"/></clipPath>
+    <clipPath id="mothership-c1"><path d="M220 262 L239.9 308.4 L271.9 303.2 Z"/></clipPath>
+    <clipPath id="mothership-c2"><path d="M220 262 L207.2 332.8 L239.9 308.4 Z"/></clipPath>
+    <clipPath id="mothership-c3"><path d="M220 262 L165.6 303.6 L207.2 332.8 Z"/></clipPath>
+    <clipPath id="mothership-c4"><path d="M220 262 L175.4 267.2 L165.6 303.6 Z"/></clipPath>
+    <clipPath id="mothership-c5"><path d="M220 262 L165.2 243.2 L175.4 267.2 Z"/></clipPath>
+    <clipPath id="mothership-c6"><path d="M220 262 L178 205.2 L165.2 243.2 Z"/></clipPath>
+    <clipPath id="mothership-c7"><path d="M220 262 L215.7 213.9 L178 205.2 Z"/></clipPath>
+    <clipPath id="mothership-c8"><path d="M220 262 L239.5 218.7 L215.7 213.9 Z"/></clipPath>
+    <clipPath id="mothership-c9"><path d="M220 262 L269.4 234.3 L239.5 218.7 Z"/></clipPath>
+    <clipPath id="mothership-c10"><path d="M220 262 L280.1 267.7 L269.4 234.3 Z"/></clipPath>
+    <clipPath id="mothership-c11"><path d="M280.1 267.7 L271.9 303.2 L325 340.8 L354 282.6 Z"/></clipPath>
+    <clipPath id="mothership-c12"><path d="M271.9 303.2 L239.9 308.4 L275.4 401.6 L325 340.8 Z"/></clipPath>
+    <clipPath id="mothership-c13"><path d="M239.9 308.4 L207.2 332.8 L204.4 409 L275.4 401.6 Z"/></clipPath>
+    <clipPath id="mothership-c14"><path d="M207.2 332.8 L165.6 303.6 L94.8 350.2 L204.4 409 Z"/></clipPath>
+    <clipPath id="mothership-c15"><path d="M165.6 303.6 L175.4 267.2 L73.1 270.3 L94.8 350.2 Z"/></clipPath>
+    <clipPath id="mothership-c16"><path d="M175.4 267.2 L165.2 243.2 L89.9 204.5 L73.1 270.3 Z"/></clipPath>
+    <clipPath id="mothership-c17"><path d="M165.2 243.2 L178 205.2 L144.6 156.8 L89.9 204.5 Z"/></clipPath>
+    <clipPath id="mothership-c18"><path d="M178 205.2 L215.7 213.9 L194.1 115.1 L144.6 156.8 Z"/></clipPath>
+    <clipPath id="mothership-c19"><path d="M215.7 213.9 L239.5 218.7 L281.6 123.2 L194.1 115.1 Z"/></clipPath>
+    <clipPath id="mothership-c20"><path d="M239.5 218.7 L269.4 234.3 L338.1 191.7 L281.6 123.2 Z"/></clipPath>
+    <clipPath id="mothership-c21"><path d="M269.4 234.3 L280.1 267.7 L354 282.6 L338.1 191.7 Z"/></clipPath>
+    <clipPath id="mothership-c22"><path d="M354 282.6 L325 340.8 L412.3 421.6 L452.4 294.5 Z"/></clipPath>
+    <clipPath id="mothership-c23"><path d="M325 340.8 L275.4 401.6 L306.3 467.4 L412.3 421.6 Z"/></clipPath>
+    <clipPath id="mothership-c24"><path d="M275.4 401.6 L204.4 409 L168.3 498.5 L306.3 467.4 Z"/></clipPath>
+    <clipPath id="mothership-c25"><path d="M204.4 409 L94.8 350.2 L35.1 408.5 L168.3 498.5 Z"/></clipPath>
+    <clipPath id="mothership-c26"><path d="M94.8 350.2 L73.1 270.3 L-17 275.8 L35.1 408.5 Z"/></clipPath>
+    <clipPath id="mothership-c27"><path d="M73.1 270.3 L89.9 204.5 L9.7 173.3 L-17 275.8 Z"/></clipPath>
+    <clipPath id="mothership-c28"><path d="M89.9 204.5 L144.6 156.8 L85.7 66 L9.7 173.3 Z"/></clipPath>
+    <clipPath id="mothership-c29"><path d="M144.6 156.8 L194.1 115.1 L179.5 38.6 L85.7 66 Z"/></clipPath>
+    <clipPath id="mothership-c30"><path d="M194.1 115.1 L281.6 123.2 L315.2 50.7 L179.5 38.6 Z"/></clipPath>
+    <clipPath id="mothership-c31"><path d="M281.6 123.2 L338.1 191.7 L422.8 150 L315.2 50.7 Z"/></clipPath>
+    <clipPath id="mothership-c32"><path d="M338.1 191.7 L354 282.6 L452.4 294.5 L422.8 150 Z"/></clipPath>
+    <clipPath id="mothership-c33"><path d="M452.4 294.5 L412.3 421.6 L664.8 602.3 L775.4 333.4 Z"/></clipPath>
+    <clipPath id="mothership-c34"><path d="M412.3 421.6 L306.3 467.4 L438.9 777.4 L664.8 602.3 Z"/></clipPath>
+    <clipPath id="mothership-c35"><path d="M306.3 467.4 L168.3 498.5 L114.2 811.9 L438.9 777.4 Z"/></clipPath>
+    <clipPath id="mothership-c36"><path d="M168.3 498.5 L35.1 408.5 L-232.4 592 L114.2 811.9 Z"/></clipPath>
+    <clipPath id="mothership-c37"><path d="M35.1 408.5 L-17 275.8 L-336.6 323.7 L-232.4 592 Z"/></clipPath>
+    <clipPath id="mothership-c38"><path d="M-17 275.8 L9.7 173.3 L-293.7 39.1 L-336.6 323.7 Z"/></clipPath>
+    <clipPath id="mothership-c39"><path d="M9.7 173.3 L85.7 66 L-93.2 -202.2 L-293.7 39.1 Z"/></clipPath>
+    <clipPath id="mothership-c40"><path d="M85.7 66 L179.5 38.6 L176.8 -296.3 L-93.2 -202.2 Z"/></clipPath>
+    <clipPath id="mothership-c41"><path d="M179.5 38.6 L315.2 50.7 L452.4 -247.5 L176.8 -296.3 Z"/></clipPath>
+    <clipPath id="mothership-c42"><path d="M315.2 50.7 L422.8 150 L702.8 -21.7 L452.4 -247.5 Z"/></clipPath>
+    <clipPath id="mothership-c43"><path d="M422.8 150 L452.4 294.5 L775.4 333.4 L702.8 -21.7 Z"/></clipPath>
+  </defs>
+  <g transform="translate(0 0) scale(1.0000)">
+    <g transform="translate(2.3 1)"><g transform="rotate(-0.1 257.3 277.6)"><g clip-path="url(#mothership-c0)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.89"/><use href="#mothership-sil" fill="url(#mothership-f0)"/></g></g></g>
+    <g transform="translate(1.6 1.9)"><g transform="rotate(0.5 243.9 291.2)"><g clip-path="url(#mothership-c1)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.83"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(0.2 2.5)"><g transform="rotate(-0.3 222.4 301.1)"><g clip-path="url(#mothership-c2)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.76"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(-1.3 2.1)"><g transform="rotate(0.2 197.6 299.5)"><g clip-path="url(#mothership-c3)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.96"/><use href="#mothership-sil" fill="url(#mothership-f1)"/></g></g></g>
+    <g transform="translate(-2.3 1.1)"><g transform="rotate(-0.1 187 277.6)"><g clip-path="url(#mothership-c4)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.83"/><use href="#mothership-sil" fill="url(#mothership-f0)"/></g></g></g>
+    <g transform="translate(-2.5 -0.3)"><g transform="rotate(-0.2 186.8 257.5)"><g clip-path="url(#mothership-c5)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.92"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(-2 -1.5)"><g transform="rotate(-0.6 187.7 236.8)"><g clip-path="url(#mothership-c6)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.93"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(-1 -2.3)"><g transform="rotate(0.1 204.6 227)"><g clip-path="url(#mothership-c7)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.87"/><use href="#mothership-sil" fill="url(#mothership-f0)"/></g></g></g>
+    <g transform="translate(0.4 -2.5)"><g transform="rotate(0.6 225.1 231.5)"><g clip-path="url(#mothership-c8)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.97"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(1.7 -1.8)"><g transform="rotate(0.3 243 238.3)"><g clip-path="url(#mothership-c9)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.88"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(2.5 -0.5)"><g transform="rotate(0.3 256.5 254.7)"><g clip-path="url(#mothership-c10)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.83"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(5.3 2.2)"><g transform="rotate(0.1 307.7 298.6)"><g clip-path="url(#mothership-c11)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.81"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(3.4 4.5)"><g transform="rotate(0.1 278 338.5)"><g clip-path="url(#mothership-c12)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.80"/><use href="#mothership-sil" fill="url(#mothership-f1)"/></g></g></g>
+    <g transform="translate(0.7 5.7)"><g transform="rotate(0.9 231.7 363)"><g clip-path="url(#mothership-c13)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.91"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(-2.9 4.9)"><g transform="rotate(1 168 348.9)"><g clip-path="url(#mothership-c14)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.92"/><use href="#mothership-sil" fill="url(#mothership-f1)"/></g></g></g>
+    <g transform="translate(-5.3 2.1)"><g transform="rotate(1 127.2 297.8)"><g clip-path="url(#mothership-c15)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.80"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(-5.6 -0.9)"><g transform="rotate(-0.2 125.9 246.3)"><g clip-path="url(#mothership-c16)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.86"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(-4.5 -3.5)"><g transform="rotate(-0.4 144.4 202.4)"><g clip-path="url(#mothership-c17)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.91"/><use href="#mothership-sil" fill="url(#mothership-f0)"/></g></g></g>
+    <g transform="translate(-2.2 -5.3)"><g transform="rotate(-0 183.1 172.7)"><g clip-path="url(#mothership-c18)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.87"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(0.8 -5.6)"><g transform="rotate(-0.7 232.7 167.7)"><g clip-path="url(#mothership-c19)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.84"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(3.8 -4.3)"><g transform="rotate(0.7 282.2 192)"><g clip-path="url(#mothership-c20)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.85"/><use href="#mothership-sil" fill="url(#mothership-f1)"/></g></g></g>
+    <g transform="translate(5.6 -1.1)"><g transform="rotate(-1.1 310.4 244.1)"><g clip-path="url(#mothership-c21)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.82"/><use href="#mothership-sil" fill="url(#mothership-f0)"/></g></g></g>
+    <g transform="translate(8.1 3.6)"><g transform="rotate(0.9 385.9 334.9)"><g clip-path="url(#mothership-c22)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.92"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(5.4 7.1)"><g transform="rotate(0.2 329.7 407.8)"><g clip-path="url(#mothership-c23)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.75"/><use href="#mothership-sil" fill="url(#mothership-f0)"/></g></g></g>
+    <g transform="translate(0.9 8.9)"><g transform="rotate(1.4 238.6 444.1)"><g clip-path="url(#mothership-c24)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.81"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(-4.6 7.6)"><g transform="rotate(-1.3 125.7 416.6)"><g clip-path="url(#mothership-c25)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.74"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(-8.3 3.1)"><g transform="rotate(0.8 46.5 326.2)"><g clip-path="url(#mothership-c26)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.92"/><use href="#mothership-sil" fill="url(#mothership-f1)"/></g></g></g>
+    <g transform="translate(-8.8 -1.5)"><g transform="rotate(-0.6 38.9 231)"><g clip-path="url(#mothership-c27)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.87"/><use href="#mothership-sil" fill="url(#mothership-f0)"/></g></g></g>
+    <g transform="translate(-6.9 -5.6)"><g transform="rotate(1.6 82.5 150.2)"><g clip-path="url(#mothership-c28)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.81"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(-3.4 -8.2)"><g transform="rotate(-1.1 151 94.1)"><g clip-path="url(#mothership-c29)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.95"/><use href="#mothership-sil" fill="url(#mothership-f1)"/></g></g></g>
+    <g transform="translate(1.1 -8.8)"><g transform="rotate(1.6 242.6 81.9)"><g clip-path="url(#mothership-c30)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.92"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(5.9 -6.6)"><g transform="rotate(0.3 339.5 128.9)"><g clip-path="url(#mothership-c31)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.86"/><use href="#mothership-sil" fill="url(#mothership-f0)"/></g></g></g>
+    <g transform="translate(8.7 -1.6)"><g transform="rotate(-0.6 391.8 229.7)"><g clip-path="url(#mothership-c32)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.76"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(11.1 4.7)"><g transform="rotate(-0.5 576.2 412.9)"><g clip-path="url(#mothership-c33)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.77"/><use href="#mothership-sil" fill="url(#mothership-f0)"/></g></g></g>
+    <g transform="translate(7.4 9.6)"><g transform="rotate(0.3 455.6 567.2)"><g clip-path="url(#mothership-c34)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.79"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(1.2 12)"><g transform="rotate(1.2 256.9 638.8)"><g clip-path="url(#mothership-c35)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.92"/><use href="#mothership-sil" fill="url(#mothership-f1)"/></g></g></g>
+    <g transform="translate(-6.4 10.2)"><g transform="rotate(-0.8 21.3 577.7)"><g clip-path="url(#mothership-c36)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.89"/><use href="#mothership-sil" fill="url(#mothership-f1)"/></g></g></g>
+    <g transform="translate(-11.3 4.4)"><g transform="rotate(-1.9 -137.7 400)"><g clip-path="url(#mothership-c37)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.92"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(-12 -1.9)"><g transform="rotate(-1.8 -159.4 203)"><g clip-path="url(#mothership-c38)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.83"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(-9.3 -7.7)"><g transform="rotate(1.6 -72.9 19.1)"><g clip-path="url(#mothership-c39)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.95"/><use href="#mothership-sil" fill="url(#mothership-f1)"/></g></g></g>
+    <g transform="translate(-4.2 -11.4)"><g transform="rotate(-1.7 87.2 -98.5)"><g clip-path="url(#mothership-c40)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.91"/><use href="#mothership-sil" fill="url(#mothership-f2)"/></g></g></g>
+    <g transform="translate(1.9 -11.9)"><g transform="rotate(-1.1 281 -113.6)"><g clip-path="url(#mothership-c41)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.88"/><use href="#mothership-sil" fill="url(#mothership-f1)"/></g></g></g>
+    <g transform="translate(8.1 -9)"><g transform="rotate(-0.5 473.3 -17.1)"><g clip-path="url(#mothership-c42)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.97"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+    <g transform="translate(11.9 -2.4)"><g transform="rotate(1.2 588.4 189)"><g clip-path="url(#mothership-c43)"><use href="#mothership-sil" fill="url(#mothership-g)" fill-opacity="0.76"/><use href="#mothership-sil" fill="url(#mothership-f3)"/></g></g></g>
+  </g>
+</svg>
