@@ -102,6 +102,22 @@ The four projects and the `mothership` repository that ties them together share 
 - Items defined in the YAML file are read-only through the API and marked `managed_by_file`.
 - Cost is shown from transponder's records. Other projects count their own operations but don't track money.
 
+**Scale and limits**
+
+The details and examples are in [docs/scale.md](docs/scale.md). These are the rules:
+
+- One binary per project, never split into services. `roles` (`gateway`, `admin`, `worker`, default all) picks what a process runs, and any combination works. Roles meet only through the database and the event bus.
+- Every dependency added for scale (Valkey, NATS, S3) is optional, uses a pure-Go client, has a fallback that needs nothing installed, and shows in `/readyz`.
+- Serving a request reads no SQL. Keys, JWKS, config and permissions are cached, limits come from the counter store, and SQL writes go through a batch writer or an outbox.
+- Config changes reach every replica within 2 seconds. From size 2 up, no state lives only in one process.
+- Limits come from named profiles in one shared format. Limit keys are prefixed by the project that owns them (`llm.`, `tools.`, `agent.`, `memory.`), with `requests` shared. The most specific binding wins: key, user, team, the `auth.profile_claim` claim, then `default_profile`. A request must pass both the caller's profile and its organisation's.
+- A limit answers 429 `rate_limited` or `concurrency_limited`, 402 `quota_exceeded`, or 503 `overloaded`, with `Retry-After` when a retry can work, and every response sends `RateLimit-Policy` and `RateLimit`.
+- Tokens and money are reserved before a call and settled after it. Each project documents how far a limit can be overshot.
+- Usage and audit events are CloudEvents 1.0 of type `dev.mothership.<project>.<event>.v1`, delivered at least once with a unique `id`, and never carry prompts, completions, tool arguments or memory text unless an opt-in setting says so.
+- Every metric, event and log line carries `cell_id` when one is set. Shared metrics are `<project>_requests_total`, `_request_duration_seconds`, `_inflight_requests`, `_limited_total` and `_events_dropped_total`.
+- Migrations follow expand and contract, so two versions run against one schema during a rolling update.
+- No README states a performance number that the load test has not measured.
+
 **Repositories**
 - `github.com/raven-clown/<name>`, Apache-2.0, Go 1.26 or newer.
 - An `mothership` repository holds this contract, a Docker Compose file that runs all four together, and an end-to-end test of the path in the diagram.
