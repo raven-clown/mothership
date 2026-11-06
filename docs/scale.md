@@ -52,9 +52,11 @@ profiles:
     priority: 1
     limits:
       requests:        {rate: 60/m, concurrency: 4}
-      llm.tokens:      {per_day: 100000, per_month: 2000000}
+      llm.tokens:      {rate: 20000/m, per_day: 100000, per_month: 2000000}
       llm.cost_usd:    {per_month: 5}
+      llm.max_input_tokens: 8192
       llm.max_output_tokens: 2048
+      llm.max_reasoning_tokens: 4096
       tools.calls:     {rate: 30/m}
       agent.runs:      {rate: 10/m, concurrency: 1, max_steps: 20, timeout: 5m}
       memory.items:    1000
@@ -106,6 +108,7 @@ Every project answers the same way:
 | 429 | `concurrency_limited` | yes, when a running request ends |
 | 402 | `quota_exceeded` | no, the daily or monthly allowance is gone |
 | 503 | `overloaded` | yes, after `Retry-After` |
+| 400 | `input_too_large` | no, the prompt is over `llm.max_input_tokens` |
 
 Every response carries `RateLimit-Policy` and `RateLimit` headers, from the IETF `draft-ietf-httpapi-ratelimit-headers`, so a client can slow down before it is refused.
 
@@ -126,6 +129,14 @@ limits:
 **Reserve, then settle.** Tokens and money are reserved before the call, using `max_tokens` for the output, and settled to the real numbers when the call ends. A call that fails gives the reservation back.
 
 **Rates** use GCRA, a token bucket that needs one key per subject.
+
+**Tokens.**
+- `llm.tokens` counts input, output and reasoning tokens together, so a model that thinks at length cannot pass the limit unseen.
+- `rate` on `llm.tokens` is tokens per minute. It stops one caller from spending a day's allowance in a minute and filling the GPUs.
+- `llm.max_input_tokens` refuses a request whose prompt is larger, with 400 `input_too_large`, before it reaches a provider.
+- `llm.max_output_tokens` and `llm.max_reasoning_tokens` lower the request's `max_tokens` and reasoning budget to the cap, and never raise them.
+- Counts come from the provider's `usage` in the response. Reasoning tokens are read where the provider reports them apart, as OpenAI and Gemini do. Where it counts them inside the output, they stay in the output count.
+- With no `usage` from the provider, transponder estimates the count and marks the record `estimated`. The estimate must not undercount text outside the Latin alphabet: Thai and other scripts cost more tokens per character than English, so they are counted at a higher rate. A route can name a tokenizer to count exactly.
 
 **When the store is down**, `on_store_error: local` counts in each replica with the limit divided by the number of replicas, so the service keeps working with a stricter limit. `deny` refuses instead.
 

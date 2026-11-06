@@ -112,7 +112,7 @@ The details and examples are in [docs/scale.md](docs/scale.md). These are the ru
 - Config changes reach every replica within 2 seconds. From size 2 up, no state lives only in one process.
 - Limits come from named profiles in one shared format. Limit keys are prefixed by the project that owns them (`llm.`, `tools.`, `agent.`, `memory.`), with `requests` shared. The most specific binding wins: key, user, team, the `auth.profile_claim` claim, then `default_profile`. A request must pass both the caller's profile and its organisation's.
 - A limit answers 429 `rate_limited` or `concurrency_limited`, 402 `quota_exceeded`, or 503 `overloaded`, with `Retry-After` when a retry can work, and every response sends `RateLimit-Policy` and `RateLimit`.
-- Tokens and money are reserved before a call and settled after it. Each project documents how far a limit can be overshot.
+- Tokens and money are reserved before a call and settled after it. `llm.tokens` counts input, output and reasoning tokens together, and also takes a per-minute `rate`. Each project documents how far a limit can be overshot.
 - Usage and audit events are CloudEvents 1.0 of type `dev.mothership.<project>.<event>.v1`, delivered at least once with a unique `id`, and never carry prompts, completions, tool arguments or memory text unless an opt-in setting says so.
 - Every metric, event and log line carries `cell_id` when one is set. Shared metrics are `<project>_requests_total`, `_request_duration_seconds`, `_inflight_requests`, `_limited_total` and `_events_dropped_total`.
 - Migrations follow expand and contract, so two versions run against one schema during a rolling update.
