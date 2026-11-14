@@ -6,6 +6,7 @@
 <div align="center">
 
 [![license](https://img.shields.io/badge/license-Apache--2.0-58A6FF?style=for-the-badge)](LICENSE)
+[![openssf scorecard](https://img.shields.io/ossf-scorecard/github.com/raven-clown/mothership?style=for-the-badge&label=openssf%20scorecard)](https://scorecard.dev/viewer/?uri=github.com/raven-clown/mothership)
 
 </div>
 
