@@ -54,12 +54,12 @@ services:
       <<: *ready
 
   logbook-seed:
-    image: mothership/logbook:${LOGBOOK_REF:-v0.1.1}
+    image: mothership/logbook:${LOGBOOK_REF:-v0.2.0}
     build:
       <<: *build
       args:
         PROJECT: logbook
-        REF: ${LOGBOOK_REF:-v0.1.1}
+        REF: ${LOGBOOK_REF:-v0.2.0}
     command: ["sh", "/etc/mothership/logbook-seed.sh"]
     volumes:
       - logbook-data:/data
@@ -68,7 +68,7 @@ services:
       - ./logbook-seed.sh:/etc/mothership/logbook-seed.sh:ro
 
   logbook:
-    image: mothership/logbook:${LOGBOOK_REF:-v0.1.1}
+    image: mothership/logbook:${LOGBOOK_REF:-v0.2.0}
     command: ["logbook", "serve", "--config", "/etc/logbook/logbook.yaml"]
     volumes:
       - logbook-data:/data
