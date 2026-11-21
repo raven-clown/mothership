@@ -47,11 +47,11 @@ The first start builds the four projects from their releases, which takes a few 
 
 | Service | URL | Demo key |
 |---|---|---|
-| rosetta, agent `assistant` | http://127.0.0.1:4200 (`/mcp`, A2A, AG-UI) | `ros_demo_alice` |
-| airlock, with logbook behind it | http://127.0.0.1:4100/mcp | `alk_demo_alice` |
-| transponder | http://127.0.0.1:4000/v1 | `tp_demo_alice` |
-| logbook | http://127.0.0.1:8420 | made at first start, in the `keys` volume |
-| Jaeger, for the traces | http://127.0.0.1:16686 | |
+| rosetta, agent `assistant` | `http://127.0.0.1:4200` (`/mcp`, A2A, AG-UI) | `ros_demo_alice` |
+| airlock, with logbook behind it | `http://127.0.0.1:4100/mcp` | `alk_demo_alice` |
+| transponder | `http://127.0.0.1:4000/v1` | `tp_demo_alice` |
+| logbook | `http://127.0.0.1:8420` | made at first start, in the `keys` volume |
+| Jaeger, for the traces | `http://127.0.0.1:16686` | |
 
 The keys are public and fit only for your own machine. Point an MCP client at rosetta's `/mcp` with `Authorization: Bearer ros_demo_alice` and call `assistant`, and the reply comes from transponder. To build a project from another tag or branch, set `AIRLOCK_REF`, `ROSETTA_REF`, `TRANSPONDER_REF` or `LOGBOOK_REF`, such as `TRANSPONDER_REF=main`.
 
@@ -59,9 +59,15 @@ With the stack up, run the end-to-end test:
 
 ```shell
 cd ../../e2e
-go test -tags e2e -v ./...
+go test -tags e2e -count=1 -v ./...
 ```
 
-It also runs on every pull request and every night. Steps the projects can't do yet are skipped with a link to the issue that tracks each one, so the skips are the list of what is left before the four fit together fully. `docker compose down --volumes` stops the stack and removes its data.
+It also runs on every pull request and every night. Steps the projects can't do yet are skipped with a link to the issue that tracks each one, so the skips are the list of what is left before the four fit together fully.
+
+To stop the stack and remove its data, from `e2e`:
+
+```shell
+docker compose -f ../deploy/compose/compose.yaml down --volumes
+```
 
 All four have early releases, v0.1.x and up. Questions and ideas are welcome in Discussions.

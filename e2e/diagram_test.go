@@ -3,9 +3,9 @@
 package e2e
 
 import (
-	"context"
 	"errors"
 	"fmt"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -71,11 +71,13 @@ func TestAgentAsksTransponder(t *testing.T) {
 	})
 
 	t.Run("the agent called a logbook tool through airlock", func(t *testing.T) {
-		t.Skip("transponder's echo provider never answers with a tool call, so the agent never calls one: " + gapEchoToolCalls)
+		t.Skip("transponder's echo provider never answers with a tool call (" + gapEchoToolCalls +
+			"), and airlock can't reach logbook yet (" + gapAirlockHeaderVar + ")")
 	})
 
 	t.Run("rosetta forwarded traceparent and X-Request-ID to airlock", func(t *testing.T) {
-		t.Skip("airlock records them only on a tool call, which the agent can't make yet: " + gapEchoToolCalls)
+		t.Skip("airlock records them only on a tool call, which the agent can't make yet (" + gapEchoToolCalls +
+			", " + gapAirlockHeaderVar + ")")
 	})
 }
 
@@ -83,15 +85,15 @@ func TestAgentAsksTransponder(t *testing.T) {
 func TestToolThroughAirlock(t *testing.T) {
 	s, h := newStack(), newHop(t)
 	c := dial(t, s.airlock+"/mcp", h.headers(airlockKey))
-	list, err := c.ListTools(context.Background(), mcp.ListToolsRequest{})
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !hasTool(list.Tools, "logbook__remember") {
-		t.Skip("airlock lists no logbook tools, since it sends ${LOGBOOK_KEY} to logbook unresolved: " + gapAirlockHeaderVar)
+	if !hasTool(listTools(t, c), "logbook__remember") {
+		if logbookRefusesAirlock(t, s) {
+			t.Skip("airlock lists no logbook tools, since it sends ${LOGBOOK_KEY} to logbook unresolved: " + gapAirlockHeaderVar)
+		}
+		t.Fatal("airlock lists no logbook__remember tool, and its log doesn't show the known cause")
 	}
 	content := "e2e run " + h.requestID + ": a tool call reached logbook through airlock"
-	if res := callTool(t, c, "logbook__remember", map[string]any{"content": content}); res.IsError {
+	subject := "e2e." + h.requestID
+	if res := callTool(t, c, "logbook__remember", map[string]any{"content": content, "subject": subject}); res.IsError {
 		t.Fatalf("logbook__remember failed: %s", resultText(res))
 	}
 
@@ -126,7 +128,8 @@ func TestToolThroughAirlock(t *testing.T) {
 				Scope   string `json:"scope"`
 			} `json:"items"`
 		}
-		if err := getJSON(s.logbook+"/v1/memories?scope=project:mothership&limit=500", map[string]string{"Authorization": "Bearer " + key}, &page); err != nil {
+		q := url.Values{"scope": {"project:mothership"}, "subject": {subject}}
+		if err := getJSON(s.logbook+"/v1/memories?"+q.Encode(), map[string]string{"Authorization": "Bearer " + key}, &page); err != nil {
 			t.Fatal(err)
 		}
 		for _, m := range page.Items {
@@ -134,7 +137,7 @@ func TestToolThroughAirlock(t *testing.T) {
 				return
 			}
 		}
-		t.Fatalf("no memory in project:mothership says %q", content)
+		t.Fatalf("no memory in project:mothership with subject %s says %q: %+v", subject, content, page.Items)
 	})
 
 	t.Run("airlock forwarded traceparent and X-Request-ID to logbook", func(t *testing.T) {
@@ -164,6 +167,30 @@ func TestToolThroughAirlock(t *testing.T) {
 func TestOneIdentity(t *testing.T) {
 	t.Skip("each project takes only its own API keys, so one caller can't be the same user in all four. " +
 		"That needs OIDC in airlock (" + gapAirlockOIDC + ") and rosetta forwarding the caller's token (" + gapRosettaIdentity + ")")
+}
+
+// logbookRefusesAirlock reports whether airlock's latest word on the logbook backend is that
+// logbook asked for authorization, which is how raven-clown/airlock#59 shows.
+func logbookRefusesAirlock(t *testing.T, s stack) bool {
+	t.Helper()
+	lines, err := logLines(s, "airlock")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var last map[string]any
+	for _, l := range lines {
+		if b, _ := l["backend"].(string); b != "logbook" {
+			continue
+		}
+		if msg, _ := l["msg"].(string); msg == "backend down" || msg == "backend up" {
+			last = l
+		}
+	}
+	if last == nil || last["msg"] != "backend down" {
+		return false
+	}
+	e, _ := last["error"].(string)
+	return strings.Contains(e, "authorization required")
 }
 
 func hasTool(tools []mcp.Tool, name string) bool {

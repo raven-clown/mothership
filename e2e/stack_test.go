@@ -71,10 +71,15 @@ func (h hop) headers(token string) map[string]string {
 	}
 }
 
+// callTimeout bounds every call the test makes, so a stalled service fails the test instead of
+// hanging it.
+const callTimeout = time.Minute
+
 func dial(t *testing.T, url string, headers map[string]string) *client.Client {
 	t.Helper()
-	ctx := context.Background()
-	c, err := client.NewStreamableHttpClient(url, transport.WithHTTPHeaders(headers))
+	ctx, cancel := context.WithTimeout(context.Background(), callTimeout)
+	defer cancel()
+	c, err := client.NewStreamableHttpClient(url, transport.WithHTTPHeaders(headers), transport.WithHTTPTimeout(callTimeout))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -93,7 +98,7 @@ func dial(t *testing.T, url string, headers map[string]string) *client.Client {
 
 func callTool(t *testing.T, c *client.Client, name string, args map[string]any) *mcp.CallToolResult {
 	t.Helper()
-	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+	ctx, cancel := context.WithTimeout(context.Background(), callTimeout)
 	defer cancel()
 	req := mcp.CallToolRequest{}
 	req.Params.Name, req.Params.Arguments = name, args
@@ -114,6 +119,22 @@ func resultText(res *mcp.CallToolResult) string {
 	return b.String()
 }
 
+func listTools(t *testing.T, c *client.Client) []mcp.Tool {
+	t.Helper()
+	ctx, cancel := context.WithTimeout(context.Background(), callTimeout)
+	defer cancel()
+	res, err := c.ListTools(ctx, mcp.ListToolsRequest{})
+	if err != nil {
+		t.Fatalf("listing tools: %v", err)
+	}
+	return res.Tools
+}
+
+// stepTimeout bounds one HTTP request or docker command inside eventually.
+const stepTimeout = 15 * time.Second
+
+var httpClient = &http.Client{Timeout: stepTimeout}
+
 func getJSON(url string, headers map[string]string, out any) error {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
@@ -122,7 +143,7 @@ func getJSON(url string, headers map[string]string, out any) error {
 	for k, v := range headers {
 		req.Header.Set(k, v)
 	}
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		return err
 	}
@@ -150,7 +171,9 @@ func eventually(t *testing.T, what string, check func() error) {
 }
 
 func compose(s stack, args ...string) ([]byte, error) {
-	cmd := exec.Command("docker", append([]string{"compose", "-f", s.composeFile}, args...)...)
+	ctx, cancel := context.WithTimeout(context.Background(), stepTimeout)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, "docker", append([]string{"compose", "-f", s.composeFile}, args...)...)
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
 	out, err := cmd.Output()
