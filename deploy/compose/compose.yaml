@@ -95,7 +95,10 @@ services:
     command:
       - sh
       - -c
-      - LOGBOOK_KEY="$$(cat /keys/logbook-airlock.key)" exec airlock serve --config /etc/mothership/airlock.yaml
+      - |
+        LOGBOOK_KEY=$$(cat /keys/logbook-airlock.key) && [ -n "$$LOGBOOK_KEY" ] || { echo "airlock: no logbook key in /keys, run logbook-seed" >&2; exit 1; }
+        export LOGBOOK_KEY
+        exec airlock serve --config /etc/mothership/airlock.yaml
     volumes:
       - airlock-data:/data
       - keys:/keys:ro

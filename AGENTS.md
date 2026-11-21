@@ -11,15 +11,15 @@ The shared home of airlock, rosetta, transponder and logbook. `CONTRACT.md` is t
 - `deploy/compose/compose.yaml` runs all four, plus Jaeger. `Dockerfile` next to it builds any project from its GitHub repository at a tag or branch (`PROJECT`, `REF`), since not every project publishes an image yet. The released tags are the defaults in `compose.yaml`; `AIRLOCK_REF`, `ROSETTA_REF`, `TRANSPONDER_REF` and `LOGBOOK_REF` override them.
 - One YAML file per project sits next to it. Keys are public demo keys. `transponder-seed` runs transponder's own `sim seed` for the `tp_demo_*` keys, and `logbook-seed.sh` makes the logbook key airlock uses and keeps it in the `keys` volume.
 - `e2e/` is its own Go module, built only with `-tags e2e`. It talks to the running stack over its localhost ports and reads airlock's audit records and logbook's request logs with `docker compose logs`.
-- A step a project can't do yet is `t.Skip` with the link to that project's issue, kept in the `gap*` constants in `e2e/diagram_test.go`. When the issue closes, remove the skip in the same change that bumps the project's tag.
+- A step a project can't do yet is `t.Skip` with the link to every issue it waits on, kept in the `gap*` constants in `e2e/diagram_test.go`. A skip that depends on what the stack shows, such as airlock listing no logbook tools, checks for the known cause and fails otherwise. Once every issue a skip names is closed, replace the skip with the check it stands for, in the same change that bumps the project's tag. Deleting the `t.Skip` line alone leaves a subtest that passes while checking nothing.
 - `.github/workflows/e2e.yml` runs the stack and the test on pull requests, on main and every night. The nightly run also builds every project from main.
 
-Commands:
+Commands, each from the repository root:
 
 ```shell
-cd deploy/compose && docker compose up --build --wait
-cd e2e && go test -tags e2e -count=1 -v ./...
-cd deploy/compose && docker compose down --volumes
+docker compose -f deploy/compose/compose.yaml up --build --wait
+go -C e2e test -tags e2e -count=1 -v ./...
+docker compose -f deploy/compose/compose.yaml down --volumes
 ```
 
 When a project releases, bump its default tag in `compose.yaml` and in the README table if a port or key changed.

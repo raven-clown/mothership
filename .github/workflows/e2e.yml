@@ -11,9 +11,10 @@ on:
 permissions:
   contents: read
 
+# A newer push replaces a pull request's run, but a merge never cancels the nightly run.
 concurrency:
-  group: e2e-${{ github.ref }}
-  cancel-in-progress: true
+  group: e2e-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   stack:
