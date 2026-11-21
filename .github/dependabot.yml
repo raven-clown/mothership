@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directories: ["/", "/contributing"]
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: "ci(deps)"
+  - package-ecosystem: docker
+    directory: /contributing
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "build(deps)"

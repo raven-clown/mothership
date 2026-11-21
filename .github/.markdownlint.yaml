@@ -1,0 +1,12 @@
+default: true
+# Prose is one line per paragraph, and the README lays out its art and logos in HTML.
+MD013: false
+MD033: false
+MD041: false
+MD060: false
+# CONTRACT.md puts a bold label straight above each list.
+MD032: false
+MD036: false
+MD034: false
+MD040: false
+MD045: false
