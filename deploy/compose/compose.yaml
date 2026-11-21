@@ -85,12 +85,12 @@ services:
       <<: *ready
 
   airlock:
-    image: mothership/airlock:${AIRLOCK_REF:-v0.1.0}
+    image: mothership/airlock:${AIRLOCK_REF:-v0.2.0}
     build:
       <<: *build
       args:
         PROJECT: airlock
-        REF: ${AIRLOCK_REF:-v0.1.0}
+        REF: ${AIRLOCK_REF:-v0.2.0}
     # The key logbook-seed made goes in LOGBOOK_KEY, which airlock.yaml sends to logbook.
     command:
       - sh
