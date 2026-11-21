@@ -1,0 +1,35 @@
+# airlock in the mothership stack: the front door for tools, with logbook behind it.
+#
+# The keys below are public demo keys, fit only for a stack on your own machine:
+#   alk_demo_rosetta  used by rosetta's agents
+#   alk_demo_alice    for you, to call tools through airlock yourself
+
+listen_addr: ":8080"
+
+storage:
+  driver: sqlite
+  dsn: file:/data/airlock.db
+
+api_keys:
+  - name: rosetta
+    sha256: efba6fcf2ca96d509ed9ca4b0c6ae244874000bb22bceda2f75f7113d73a03f2
+    groups: [agents]
+  - name: alice
+    sha256: 552fa42395ad83e185a531f2b02740ce9f2aaecaf53ba00d27abbd3f2ee8bce6
+    groups: [agents]
+
+servers:
+  - name: logbook
+    transport: streamable_http
+    url: http://logbook:8420/mcp
+    auth:
+      mode: static
+      headers:
+        # LOGBOOK_KEY is the key logbook-seed made, read from /keys by the start command.
+        Authorization: "Bearer ${LOGBOOK_KEY}"
+        X-Project: mothership
+
+rules:
+  - name: agents
+    subjects: ["group:agents"]
+    allow: ["logbook__*"]
