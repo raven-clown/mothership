@@ -4,7 +4,7 @@ Instructions for coding agents working in this repository. Keep this file curren
 
 ## What this repository is
 
-The shared home of airlock, rosetta, transponder and logbook. `CONTRACT.md` is the agreement between the four projects, and `docs/scale.md` explains its scale, limits and usage event rules in detail. `docs/assets/` holds the README art. `contributing/` is the kit each project copies to its own root: CONTRIBUTING.md, AGENTS.md template, issue and pull request templates, CI workflows, `.golangci.yml`, `.testcoverage.yml`, `Makefile`, `ruleset.json` and `scripts/setup-repo.sh`.
+The shared home of airlock, rosetta, transponder and logbook. `CONTRACT.md` is the agreement between the four projects, and `docs/scale.md` explains its scale, limits and usage event rules in detail. `docs/assets/` holds the README art. `docs/plans/` holds the plan for each piece of work, with the issue number of every task. `contributing/` is the kit each project copies to its own root: CONTRIBUTING.md, AGENTS.md template, issue and pull request templates, CI workflows, `.golangci.yml`, `.testcoverage.yml`, `Makefile`, `ruleset.json` and `scripts/setup-repo.sh`.
 
 ## The stack and the end-to-end test
 
