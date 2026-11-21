@@ -1,7 +1,8 @@
 version: 2
 updates:
   - package-ecosystem: github-actions
-    directories: ["/", "/contributing"]
+    # Outside the root, Dependabot reads the workflow files in the directory itself.
+    directories: ["/", "/contributing/.github/workflows"]
     schedule:
       interval: weekly
     groups:

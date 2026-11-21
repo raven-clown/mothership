@@ -53,4 +53,8 @@ jobs:
         with:
           go-version: stable
           cache: false
-      - run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12 .github/workflows/*.yml contributing/.github/workflows/*.yml
+      # actionlint does not know concurrency's queue key yet: https://github.com/rhysd/actionlint/issues/657
+      - run: |
+          go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12 \
+            -ignore 'unexpected key "queue" for "concurrency" section' \
+            .github/workflows/*.yml contributing/.github/workflows/*.yml
