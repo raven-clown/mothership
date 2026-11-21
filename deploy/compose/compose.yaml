@@ -23,12 +23,12 @@ x-ready: &ready
 
 services:
   transponder-seed:
-    image: mothership/transponder:${TRANSPONDER_REF:-v0.3.0}
+    image: mothership/transponder:${TRANSPONDER_REF:-v0.3.1}
     build:
       <<: *build
       args:
         PROJECT: transponder
-        REF: ${TRANSPONDER_REF:-v0.3.0}
+        REF: ${TRANSPONDER_REF:-v0.3.1}
         EXTRA: ./demo/sim
     # transponder's own demo helper: puts the fixed keys tp_demo_alice, tp_demo_viewer and
     # a few more in the store.
@@ -37,7 +37,7 @@ services:
       - transponder-data:/data
 
   transponder:
-    image: mothership/transponder:${TRANSPONDER_REF:-v0.3.0}
+    image: mothership/transponder:${TRANSPONDER_REF:-v0.3.1}
     command: ["transponder", "--config", "/etc/mothership/transponder.yaml"]
     volumes:
       - transponder-data:/data
@@ -113,12 +113,12 @@ services:
       <<: *ready
 
   rosetta:
-    image: mothership/rosetta:${ROSETTA_REF:-v0.2.0}
+    image: mothership/rosetta:${ROSETTA_REF:-v0.2.1}
     build:
       <<: *build
       args:
         PROJECT: rosetta
-        REF: ${ROSETTA_REF:-v0.2.0}
+        REF: ${ROSETTA_REF:-v0.2.1}
     command: ["rosetta", "serve", "--config", "/etc/mothership/rosetta.yaml"]
     volumes:
       - rosetta-data:/data
