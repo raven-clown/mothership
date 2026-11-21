@@ -1,0 +1,62 @@
+name: e2e
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stack:
+    name: stack (${{ matrix.refs }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        # Pull requests run the released versions. The nightly run also builds every project
+        # from main, so a change in one project that breaks the path shows up the next day.
+        refs: ${{ github.event_name == 'schedule' && fromJSON('["released", "main"]') || fromJSON('["released"]') }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version-file: e2e/go.mod
+          cache-dependency-path: e2e/go.sum
+      - name: build every project from main
+        if: matrix.refs == 'main'
+        run: |
+          {
+            echo "AIRLOCK_REF=main"
+            echo "ROSETTA_REF=main"
+            echo "TRANSPONDER_REF=main"
+            echo "LOGBOOK_REF=main"
+          } >> "$GITHUB_ENV"
+      - name: the compose file is valid
+        working-directory: deploy/compose
+        run: docker compose config --quiet
+      - name: the stack starts healthy
+        working-directory: deploy/compose
+        run: docker compose up --build --detach --wait --wait-timeout 300
+      - name: the end-to-end test passes
+        working-directory: e2e
+        run: go test -tags e2e -count=1 -v ./...
+      - name: logs of a failed run
+        if: failure()
+        working-directory: deploy/compose
+        run: docker compose ps --all && docker compose logs --no-color
+      - name: stop
+        if: always()
+        working-directory: deploy/compose
+        run: docker compose down --volumes

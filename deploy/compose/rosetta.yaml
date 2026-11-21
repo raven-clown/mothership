@@ -1,0 +1,30 @@
+# rosetta in the mothership stack. Its agent asks transponder for model replies and lists
+# logbook's tools through airlock.
+#
+# The keys are public demo keys, fit only for a stack on your own machine. ros_demo_alice is
+# yours. rosetta calls transponder and airlock with its own keys, not yours: tp_demo_bob is
+# one of the fixed keys transponder-seed makes, and alk_demo_rosetta is in airlock.yaml.
+
+listen_addr: ":8080"
+default_agent: assistant
+
+auth:
+  api_keys:
+    - {name: alice, key: ros_demo_alice, role: member}
+
+transponder:
+  url: http://transponder:8080/v1
+  api_key: tp_demo_bob
+
+airlock:
+  url: http://airlock:8080/mcp
+  api_key: alk_demo_rosetta
+
+agents:
+  - name: assistant
+    description: Answers questions and keeps notes in logbook.
+    kind: llm
+    model: echo
+    system_prompt: You are a helpful assistant. Save what is worth keeping with logbook__remember.
+    tools: ["logbook__*"]
+    max_steps: 4

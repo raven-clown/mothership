@@ -1,0 +1,12 @@
+# logbook in the mothership stack, behind airlock as an MCP server.
+
+listen_addr: ":8420"
+
+database:
+  driver: sqlite
+  dsn: /data/logbook.db
+
+default_project: mothership
+
+telemetry:
+  otlp_endpoint: http://jaeger:4318

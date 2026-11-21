@@ -1,0 +1,18 @@
+# transponder in the mothership stack. Every model and every embedding is answered by the
+# built-in echo provider, so no provider key is needed and no call leaves your machine.
+
+listen_addr: ":8080"
+
+store:
+  sqlite: /data/transponder.db
+
+otel:
+  endpoint: http://jaeger:4318
+
+providers:
+  - {name: echo, type: echo}
+
+routes:
+  - match: "*"
+    targets:
+      - {provider: echo}

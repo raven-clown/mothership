@@ -1,0 +1,145 @@
+# The whole mothership stack: rosetta, airlock, logbook and transponder, wired the way
+# CONTRACT.md draws them, with Jaeger to show the traces.
+#
+#   docker compose up --build --wait
+#
+# transponder answers with its echo provider, so no API key is needed. Every port is bound to
+# localhost and every key in these files is a public demo key.
+#
+# Each project is built from its GitHub repository at the release named below. Set
+# AIRLOCK_REF, ROSETTA_REF, TRANSPONDER_REF or LOGBOOK_REF to a tag or branch to build another,
+# such as TRANSPONDER_REF=main. If a port is taken, set the matching *_PORT variable.
+
+name: mothership
+
+x-build: &build
+  context: .
+  dockerfile: Dockerfile
+
+x-ready: &ready
+  interval: 2s
+  timeout: 3s
+  retries: 30
+
+services:
+  transponder-seed:
+    image: mothership/transponder:${TRANSPONDER_REF:-v0.3.0}
+    build:
+      <<: *build
+      args:
+        PROJECT: transponder
+        REF: ${TRANSPONDER_REF:-v0.3.0}
+        EXTRA: ./demo/sim
+    # transponder's own demo helper: puts the fixed keys tp_demo_alice, tp_demo_viewer and
+    # a few more in the store.
+    command: ["sim", "seed", "-db", "/data/transponder.db"]
+    volumes:
+      - transponder-data:/data
+
+  transponder:
+    image: mothership/transponder:${TRANSPONDER_REF:-v0.3.0}
+    command: ["transponder", "--config", "/etc/mothership/transponder.yaml"]
+    volumes:
+      - transponder-data:/data
+      - ./transponder.yaml:/etc/mothership/transponder.yaml:ro
+    ports:
+      - "127.0.0.1:${TRANSPONDER_PORT:-4000}:8080"
+    depends_on:
+      transponder-seed:
+        condition: service_completed_successfully
+      jaeger:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/readyz"]
+      <<: *ready
+
+  logbook-seed:
+    image: mothership/logbook:${LOGBOOK_REF:-v0.1.1}
+    build:
+      <<: *build
+      args:
+        PROJECT: logbook
+        REF: ${LOGBOOK_REF:-v0.1.1}
+    command: ["sh", "/etc/mothership/logbook-seed.sh"]
+    volumes:
+      - logbook-data:/data
+      - keys:/keys
+      - ./logbook.yaml:/etc/logbook/logbook.yaml:ro
+      - ./logbook-seed.sh:/etc/mothership/logbook-seed.sh:ro
+
+  logbook:
+    image: mothership/logbook:${LOGBOOK_REF:-v0.1.1}
+    command: ["logbook", "serve", "--config", "/etc/logbook/logbook.yaml"]
+    volumes:
+      - logbook-data:/data
+      - ./logbook.yaml:/etc/logbook/logbook.yaml:ro
+    ports:
+      - "127.0.0.1:${LOGBOOK_PORT:-8420}:8420"
+    depends_on:
+      logbook-seed:
+        condition: service_completed_successfully
+      jaeger:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8420/readyz"]
+      <<: *ready
+
+  airlock:
+    image: mothership/airlock:${AIRLOCK_REF:-v0.1.0}
+    build:
+      <<: *build
+      args:
+        PROJECT: airlock
+        REF: ${AIRLOCK_REF:-v0.1.0}
+    # The key logbook-seed made goes in LOGBOOK_KEY, which airlock.yaml sends to logbook.
+    command:
+      - sh
+      - -c
+      - LOGBOOK_KEY="$$(cat /keys/logbook-airlock.key)" exec airlock serve --config /etc/mothership/airlock.yaml
+    volumes:
+      - airlock-data:/data
+      - keys:/keys:ro
+      - ./airlock.yaml:/etc/mothership/airlock.yaml:ro
+    ports:
+      - "127.0.0.1:${AIRLOCK_PORT:-4100}:8080"
+    depends_on:
+      logbook:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/readyz"]
+      <<: *ready
+
+  rosetta:
+    image: mothership/rosetta:${ROSETTA_REF:-v0.1.0}
+    build:
+      <<: *build
+      args:
+        PROJECT: rosetta
+        REF: ${ROSETTA_REF:-v0.1.0}
+    command: ["rosetta", "serve", "--config", "/etc/mothership/rosetta.yaml"]
+    volumes:
+      - rosetta-data:/data
+      - ./rosetta.yaml:/etc/mothership/rosetta.yaml:ro
+    ports:
+      - "127.0.0.1:${ROSETTA_PORT:-4200}:8080"
+    depends_on:
+      transponder:
+        condition: service_healthy
+      airlock:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/readyz"]
+      <<: *ready
+
+  # Takes traces from transponder and logbook over OTLP and shows them.
+  jaeger:
+    image: jaegertracing/jaeger:2.23.0@sha256:3823829974ccfc2485d2e48b165579091f32295022ae80ca49704e2f4834116e
+    ports:
+      - "127.0.0.1:${JAEGER_PORT:-16686}:16686"
+
+volumes:
+  transponder-data:
+  logbook-data:
+  airlock-data:
+  rosetta-data:
+  keys:
