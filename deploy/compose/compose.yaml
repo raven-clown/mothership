@@ -113,12 +113,12 @@ services:
       <<: *ready
 
   rosetta:
-    image: mothership/rosetta:${ROSETTA_REF:-v0.1.0}
+    image: mothership/rosetta:${ROSETTA_REF:-v0.2.0}
     build:
       <<: *build
       args:
         PROJECT: rosetta
-        REF: ${ROSETTA_REF:-v0.1.0}
+        REF: ${ROSETTA_REF:-v0.2.0}
     command: ["rosetta", "serve", "--config", "/etc/mothership/rosetta.yaml"]
     volumes:
       - rosetta-data:/data
